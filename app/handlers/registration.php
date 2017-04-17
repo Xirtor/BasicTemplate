@@ -1,5 +1,5 @@
 <?php
 
-return function (){
+return function () use ($app){
 	echo 'registration';
 };

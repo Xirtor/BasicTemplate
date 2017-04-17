@@ -20,13 +20,15 @@ $logger->write('hello');
 // create application
 $app = new Xirtor\Web\Micro;
 
-// callback handler
-$app->get('/', function (){
-	echo 'Home page';
-});
+// set handlers directory
+$app->handlersDir = 'app/handlers/';
 
-// handler in file
-$app->get('/auth', 'app/handlers/auth');
-$app->get('/registration', 'app/handlers/registration');
+// set not found handler
+$app->router->notFound = '404';
 
+// import routes handlers from config
+$routes = require 'app/config/routes.php';
+$app->router->import($routes);
+
+// run application
 $app->handle();
