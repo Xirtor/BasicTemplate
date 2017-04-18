@@ -9,6 +9,7 @@ return [
 		},
 		'/auth' => 'auth',
 		'/registration' => 'registration',
-		'/user/show/(:num)' => 'user_show'
+		'/user/show/(:num)' => 'user_show',
+		'/articles/save/(:num)' => 'article_update'
 	]
 ];
