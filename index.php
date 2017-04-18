@@ -7,11 +7,20 @@ error_reporting(E_ALL);
 // Autoload
 require 'vendor/Xirtor/Loader.php';
 $loader = new Xirtor\Loader;
+$loader->registerDir('app/models/');
 $loader->register();
 
 // Logger
 $logger = new Xirtor\Logger('log.txt');
 $logger->write('hello');
+
+
+// Database
+$config = require 'app/config/db.php';
+$db = new Xirtor\Db\Connection($config);
+$db->open();
+
+Xirtor\Web\Model::$db = &$db;
 
 
 // Micro application example

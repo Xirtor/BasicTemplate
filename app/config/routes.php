@@ -8,6 +8,7 @@ return [
 			echo 'Home page';
 		},
 		'/auth' => 'auth',
-		'/registration' => 'registration'
+		'/registration' => 'registration',
+		'/user/show/(:num)' => 'user_show'
 	]
 ];
