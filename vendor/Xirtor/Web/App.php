@@ -8,6 +8,7 @@
 namespace Xirtor\Web;
 
 use Xirtor\Di;
+use Xirtor\Exception;
 use Xirtor\Web\Router;
 use Xirtor\Web\View;
 use Xirtor\Orm\Connection;
@@ -95,7 +96,7 @@ class App extends Di{
 
 		if (isset($handler)) return call_user_func_array($handler, $route->matches);
 		else if ($this->router->notFound) return $this->handle(new Route($this->router->notFound, null));
-		else echo 'Application error: 404. Not Found';
+		else throw new Exception('Application error: 404. Not Found.');
 	}
 
 }
