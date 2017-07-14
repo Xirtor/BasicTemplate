@@ -42,8 +42,15 @@ class App extends Di{
 		if (is_readable($filename)) return $this->config[$name] = include $filename;
 	}
 
-	public function init(){
-		$this->getConfig('app');
+	public function __construct(array $config = null){
+		if (!$config) {
+			$config = $this->getConfig('app');
+			if (!$config) return $this->init();
+		}
+		parent::__construct($config);
+	}
+
+	public function init(){		
 		$this->_parseUrl();
 	}
 
