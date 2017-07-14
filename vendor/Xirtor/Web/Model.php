@@ -11,7 +11,7 @@ use Xirtor\Orm\ActiveRecord;
 
 /**
 * MVC Model
-* @author Egor Vasyakin <egor.vasykin@itevas.ru>
+* @author Egor Vasyakin <egor.vasyakin@itevas.ru>
 * @since 1.0
 */
 

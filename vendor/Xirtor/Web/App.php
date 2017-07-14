@@ -15,7 +15,7 @@ use Xirtor\Web\Model;
 
 /**
 * Application
-* @author Egor Vasyakin <egor.vasykin@itevas.ru>
+* @author Egor Vasyakin <egor.vasyakin@itevas.ru>
 * @since 1.0
 */
 
