@@ -12,7 +12,8 @@ return [
 
 			'/' => 'index.php',
 			'/users' => 'users/list.php',
-			'/users/id(:int)' => 'users/single.php'
+			'/users/id(:int)' => 'users/single.php',
+			'/users/create' => 'users/create.php'
 
 		]
 

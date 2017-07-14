@@ -9,4 +9,8 @@ class User extends Model{
 	public $email;
 	public $hash;
 
+	public function passwordToHash(){
+		$this->hash = password_hash($this->password, PASSWORD_DEFAULT);
+	}
+
 }
