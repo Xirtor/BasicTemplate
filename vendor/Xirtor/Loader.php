@@ -1,51 +1,47 @@
 <?php
 /**
 * @package Xirtor
-* @link http://github.com/Xirtor/
-* @copyright Copyright (c) Xirtor
+* @link https://github.com/xirtor
+* @copyright Copyright (c) XirtorTeam
 */
+
 namespace Xirtor;
+
+use Xirtor\Exception;
 
 /**
 * Classes autoloader
-* Support standarts PSR4, PSR0
-* @since 0.1 Beta
-* @author Egor Vasyakin <egor.vasyakin@itevas.ru>
+* @author Egor Vasyakin <egor.vasykin@itevas.ru>
+* @since 1.0
 */
 
 class Loader{
 
-	protected $_classes = [];
-	protected $_namespaces = [];
-	protected $_dirs = [];
-	protected $_registered = false;
+	public $classes = [];
+	public $namespaces = [];
+	public $dirs = [];
+	public $registered = false;
 
 	public function __construct(){
 		$this->registerDir('vendor/');
 	}
 
 	public function registerClass($name, $path){
-		$this->_classes[$name] = $path;
-	}
-
-	public function registerClasses(array $classes){
-		foreach ($classes as $name => $path) {
-			$this->registerClass($name, $path);
-		}
+		$this->classes[$name] = $path;
 	}
 
 	public function registerNamespace($name, $path){
-		$this->_namespaces[$name] = $path;
+		$this->namespaces[$name] = $path;
 	}
 
 	public function registerNamespaces(array $namespaces){
-		foreach ($namespaces as $namespace => $path) {
-			$this->registerNamespace($namespace, $path);
+		foreach ($namespaces as $name => $path) {
+			$this->registerNamespace($name, $path);
 		}
 	}
 
 	public function registerDir($dir){
-		$this->_dirs[] = $dir;
+		$this->dirs[] = $dir;
 	}
 
 	public function registerDirs(array $dirs){
@@ -55,49 +51,33 @@ class Loader{
 	}
 
 	public function register(){
-		if ($this->_registered === false) {
-			spl_autoload_register([$this, 'autoload']);
-			$this->_registered = true;
-		}
+		spl_autoload_register([$this, 'autoload']);
+		$this->registered = true;
 	}
 
 	public function unregister(){
 		spl_autoload_unregister([$this, 'autoload']);
-		$this->_registered = false;
+		$this->registered = false;
 	}
 
 	public function autoload($className){
-		$filename = isset($this->_classes[$className]) ? $this->_classes[$className] : false;
-		if (!is_readable($filename)) $filename = false;
+		$className = str_replace('\\', '/', $className);
 
-
-		if (!$filename) {
-
-			foreach ($this->_namespaces as $name => $path) {
-				if (preg_match("/^$name/", $className)) {
-					$tmp = $path . $className . '.php';
-					if (is_readable($tmp)) {
-						$filename = $tmp;
-						break;
-					}
-				}
-			}
-
-			if (!$filename) {
-
-				foreach ($this->_dirs as $path) {
-					$tmp = $path . $className . '.php';
-					if (is_readable($tmp)) {
-						$filename = $tmp;
-						break;
-					}
-				}
-
-			}
-
+		if (isset($this->classes[$className])) {
+			$filename = $this->classes[$className];
+			if (is_readable($filename)) return include $filename;
 		}
-
-		if ($filename) require $filename;
+		foreach ($this->namespaces as $name => $path) {
+			if (strpos($className, $name) === 0) {
+				$filename = $path . $className . '.php';
+				if (is_readable($filename)) return include $filename;
+			}
+		}
+		foreach ($this->dirs as $dir) {
+			$filename = $dir . $className . '.php';
+			if (is_readable($filename)) return include $filename;
+		}
+		throw new Exception('Could not found class "' . str_replace('/', '\\', $className) . '"');
 	}
 
 }
