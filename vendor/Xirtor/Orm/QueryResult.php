@@ -51,7 +51,7 @@ class QueryResult{
 		$count = $this->rowCount();
 		for ($i = 0; $i < $count; $i++) {
 			$record = $this->array();
-			$objects[] = $record ? $this->classModel($record) : null;
+			$objects[] = $record ? new $this->classModel($record) : null;
 		}
 		return $objects;
 	}
