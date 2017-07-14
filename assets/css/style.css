@@ -1,0 +1,35 @@
+* {box-sizing: border-box; margin: 0px; padding: 0px; vertical-align: top;}
+body {background: #fff; color: #333;}
+body, textarea {font-family: Arial;}
+body, input, textarea, select, button {font-size: 16px;}
+input, textarea, select, button, a {outline: none;}
+
+
+ul {list-style: none;}
+a {color: #36c;}
+a:hover {color: #c63;}
+
+input, textarea, select {background: #fff; border: solid #ddd 1px; padding: 7px 10px;}
+input:hover, textarea:hover, select:hover {border-color: #aaa;}
+input:focus, textarea:focus, select:focus {border-color: #888;}
+button {background: #e33; border: solid transparent 1px; color: #fff; cursor: pointer; padding: 7px 15px;}
+button:hover {background: #d22;}
+button:active {background: #c11;}
+
+
+.page-header {background: #fafafa;}
+.page-header nav {align-items: center; display: flex; padding: 10px;}
+.page-header nav a {padding: 10px;}
+
+
+.page {padding: 20px;}
+.page h1 {padding: 10px 0px;}
+.page .content {}
+
+.users {}
+.users li {padding: 10px 0px;}
+
+
+.page-footer {background: #fafafa; padding: 20px;}
+.page-footer p {}
+.page-footer .copyright {color: #999; font-size: 13px;}

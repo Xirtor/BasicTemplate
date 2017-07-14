@@ -8,10 +8,12 @@ return function ($user_id){
 	$this->setDb();
 
 	// получаем пользователя
-	$user = User::find()->where('=', 'id', $user_id)->one()->objects();
+	$user = User::find()->where('=', 'id', $user_id)->one()->object();
 	
 	if ($user) {
-		var_dump($user);
+		$this->view->render('users/single.php', ['user' => $user]);
+	} else {
+		$this->view->render('page.php', ['title' => '404. Not Found.', 'content' => 'Not found user']);
 	}
 	
 };

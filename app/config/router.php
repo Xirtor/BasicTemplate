@@ -15,6 +15,12 @@ return [
 			'/users/id(:int)' => 'users/single.php',
 			'/users/create' => 'users/create.php'
 
+		],
+
+		'POST' => [
+
+			'/users/create' => 'users/create.php'
+
 		]
 
 	]

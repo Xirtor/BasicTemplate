@@ -3,5 +3,11 @@
 // index action
 
 return function (){
-	echo 'Home page';
+
+	$title = 'Home page';
+	$content = 'Displaying home page';
+	
+	// вывод представления
+	$this->view->render('page.php', ['title' => $title, 'content' => $content]);
+
 };
