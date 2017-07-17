@@ -78,7 +78,9 @@ class ActiveRecord{
 		$row = $this->getPublic($columns);
 		$this->_noSet($row);
 		if (!$columns) $columns = array_keys($row);
-		return static::getDb()->insert(static::tableName(), $columns, $row);
+		$result = static::getDb()->insert(static::tableName(), $columns, $row);
+		if ($result) $this->id = static::getDb()->lastInsertId(static::tableName());
+		return $result;
 	}
 
 	public function update($columns = null){

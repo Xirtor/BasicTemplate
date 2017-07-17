@@ -15,9 +15,8 @@ return function (){
 		$user->passwordToHash();
 
 		if ($user->insert()) {
-			$user_id = User::getDb()->pdo->lastInsertId;
 			// редиректим на просмотр нового пользователя
-			header($this->dir . 'users/id' . $user_id);
+			header('location: ' . $this->dir . 'users/id' . $user->id);
 		} else {
 			$this->view->render('users/create.php', ['error' => 'Не удалось добавить пользователя']);
 		}

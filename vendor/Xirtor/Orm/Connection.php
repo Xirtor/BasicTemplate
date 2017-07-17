@@ -101,6 +101,13 @@ class Connection extends Object{
 
 
 
+	public function lastInsertId($tbl = null){
+		return $this->pdo->lastInsertId($tbl);
+	}
+
+
+
+
 
 	public function insert($tbl, array $columns, &$row){
 		$tbl = $this->quoteTable($tbl);
