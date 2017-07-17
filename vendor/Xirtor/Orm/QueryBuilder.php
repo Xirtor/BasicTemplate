@@ -8,6 +8,7 @@
 namespace Xirtor\Orm;
 
 use Xirtor\Orm\QueryResult;
+use Xirtor\Exception;
 
 /**
 * Query Builder ORM
@@ -28,6 +29,7 @@ class QueryBuilder{
 	public $groupBy;
 
 	public function __construct($classModel){
+		if ($classModel::getDb() === null) throw new Exception('Not found database connection in ' . $classModel . ' model');
 		$this->classModel = &$classModel;
 	}
 
