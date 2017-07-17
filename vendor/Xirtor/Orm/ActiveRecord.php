@@ -8,6 +8,7 @@
 namespace Xirtor\Orm;
 
 use Xirtor\Orm\QueryBuilder;
+use Xirtor\Exception;
 
 /**
 * Active Record ORM
@@ -43,8 +44,19 @@ class ActiveRecord{
 		unset($this->_private[$name]);
 	}
 
-	public function getPublic(){
-		return static::getDb()->getObjectVals($this);
+	public function getPublic($columns = null){
+		$values = static::getDb()->getObjectVals($this);
+		if ($columns) {
+			if (!is_array($columns)) throw new Exception('Argument 1 columns must be array in ' . get_called_class() . ' object');
+			$real = [];
+			foreach ($columns as $column) {
+				if (!isset($values[$column])) throw new Exception('Variable ' . $column . ' not found in ' . get_called_class() . ' object');
+				$real[$column] = $values[$column];
+			}
+			$values = &$real;
+
+		}
+		return $values;
 	}
 
 	public function getColumns(){
@@ -62,17 +74,17 @@ class ActiveRecord{
 		unset($values[static::$primaryKey]);
 	}
 
-	public function insert(){
-		$row = $this->getPublic();
+	public function insert($columns = null){
+		$row = $this->getPublic($columns);
 		$this->_noSet($row);
-		$columns = array_keys($row);
+		if (!$columns) $columns = array_keys($row);
 		return static::getDb()->insert(static::tableName(), $columns, $row);
 	}
 
-	public function update(){
-		$row = $this->getPublic();
+	public function update($columns = null){
+		$row = $this->getPublic($columns);
 		$this->_noSet($row);
-		$columns = array_keys($row);
+		if (!$columns) $columns = array_keys($row);
 		$byColumn = static::$primaryKey;
 		$byValue = $this->$byColumn;
 		return static::getDb()->update(static::tableName(), $byColumn, $byValue, $columns, $row);
@@ -86,6 +98,10 @@ class ActiveRecord{
 
 	public static function find(){
 		return new QueryBuilder(get_called_class());
+	}
+
+	public static function findById($id){
+		return (new QueryBuilder(get_called_class()))->where('=', 'id', $id)->one();
 	}
 
 	public static function findBySql($sql){
