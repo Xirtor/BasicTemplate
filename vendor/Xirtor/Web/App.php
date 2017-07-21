@@ -25,7 +25,7 @@ class App extends Di{
 	public $dir;
 	public $url;
 	public $path;
-	public $parts;
+	public $parts = [];
 
 	public $router;
 	public $view;
