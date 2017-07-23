@@ -12,13 +12,16 @@ return [
 
 			'/' => 'index.php',
 			'/users' => 'users/list.php',
-			'/users/id(:int)' => 'users/single.php',
-			'/users/create' => 'users/create.php'
+			'/users/(:int)' => 'users/single.php',
+			'/users/(:int)/edit' => 'users/update.php',
+			'/users/create' => 'users/create.php',
+			'/users/(:int)/delete' => 'users/delete.php',
 
 		],
 
 		'POST' => [
 
+			'/users/(:int)/edit' => 'users/update.php',
 			'/users/create' => 'users/create.php'
 
 		]

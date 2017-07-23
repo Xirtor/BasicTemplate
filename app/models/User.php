@@ -13,4 +13,8 @@ class User extends Model{
 		$this->hash = password_hash($this->password, PASSWORD_DEFAULT);
 	}
 
+	public function passwordVerify(){
+		return password_verify($this->password, $this->hash);
+	}
+
 }

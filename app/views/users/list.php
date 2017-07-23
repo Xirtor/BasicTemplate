@@ -21,7 +21,7 @@ $this->render('header.php', ['title' => $title]);
 		<? foreach ($users as $user): ?>
 
 			<li>
-				<a href="<?=$this->app->dir?>users/id<?=$user->id?>">
+				<a href="<?=$this->app->dir?>users/<?=$user->id?>">
 					<h2><?=$user->name?></h2>
 					<p><?=$user->email?></p>
 				</a>
