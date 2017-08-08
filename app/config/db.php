@@ -3,7 +3,7 @@
 // database config
 
 return [
-	'driverName' => 'mysql',
+	'driver_name' => 'mysql',
 	'host' => 'localhost',
 	'username' => 'username',
 	'password' => 'password',
