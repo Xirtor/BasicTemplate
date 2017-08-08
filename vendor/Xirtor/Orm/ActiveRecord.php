@@ -49,8 +49,9 @@ class ActiveRecord{
 		if ($columns) {
 			if (!is_array($columns)) throw new Exception('Argument 1 columns must be array in ' . get_called_class() . ' object');
 			$real = [];
+			$recordColumns = $this->getColumns();
 			foreach ($columns as $column) {
-				if (!isset($values[$column])) throw new Exception('Variable ' . $column . ' not found in ' . get_called_class() . ' object');
+				if (!in_array($column, $recordColumns)) throw new Exception('Variable ' . $column . ' not found in ' . get_called_class() . ' object');
 				$real[$column] = $values[$column];
 			}
 			$values = &$real;
