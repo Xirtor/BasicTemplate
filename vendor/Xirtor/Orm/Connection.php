@@ -20,7 +20,7 @@ use Xirtor\Exception;
 
 class Connection extends Object{
 
-	public $driverName;
+	public $driver_name;
 	public $host;
 	public $dbname;
 	public $username;
@@ -32,7 +32,7 @@ class Connection extends Object{
 
 	public function open(){
 		try {
-			$dsn = "$this->driverName:host=$this->host";
+			$dsn = "$this->driver_name:host=$this->host";
 			if ($this->dbname) $dsn .= ";dbname=$this->dbname";
 			$this->pdo = new pdo($dsn, $this->username, $this->password, $this->options);
 			$this->pdo->query('SET NAMES ' . $this->charset);
