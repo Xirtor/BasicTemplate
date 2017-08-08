@@ -22,7 +22,7 @@ try {
 	$app->setView();
 
 	// запуск приложения
-	$app->handle();
+	$app->run();
 
 } catch (Exception $e) {
 	echo 'Xirtor catch exception: ' . $e->getMessage();
