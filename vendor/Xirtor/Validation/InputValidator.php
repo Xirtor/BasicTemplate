@@ -20,7 +20,8 @@ class InputValidator extends Object{
 	
 	public $label;
 
-	public $type;
+	// string is default type
+	public $type = 'string';
 	public $typeIncorrectError;
 
 	public $min;
@@ -29,7 +30,7 @@ class InputValidator extends Object{
 	public $lessThatMaxError;
 
 	public $pattern;
-	public $patternIncorrectError;
+	public $patternFailedError;
 
 	public $error;
 
@@ -70,7 +71,7 @@ class InputValidator extends Object{
 
 	public function checkPattern($value){
 		if (!empty($this->pattern) && !preg_match($this->pattern, $value)) {
-			$this->error = $this->patternIncorrectError ?? 'value of "' . $this->label . '" failed pattern';
+			$this->error = $this->patternFailedError ?? 'value of "' . $this->label . '" failed pattern';
 			return false;
 		}
 		return true;
@@ -80,8 +81,9 @@ class InputValidator extends Object{
 
 		if (
 			!$this->checkType($value) ||
-			is_string($value) && !$this->checkLength($value) ||
-			is_numeric($value) && !$this->checkRange($value) ||
+			$this->type === 'string' && !$this->checkLength($value) ||
+			($this->type === 'number' || $this->type === 'float' ||
+			$this->type === 'int' || $this->type === 'integer') && !$this->checkRange($value) ||
 			!$this->checkPattern($value)
 		) return false;
 
