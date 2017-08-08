@@ -78,13 +78,6 @@ class App extends Di{
 		Model::$db = &$this->db;
 	}
 
-	public function run(){
-		if ($this->handle()) return;
-		if ($this->router->notFound && $this->handle(new Route($this->router->notFound, [$this->url]))) return;
-		else throw new Exception('Application error: 404. Not Found.');
-		
-	}
-
 	public function handle($route = null){
 		if (!$route) $route = $this->router->handle($this->url);
 
@@ -103,16 +96,14 @@ class App extends Di{
 				$handler = include $filename;
 				if (!is_callable($handler)) {
 					extract($route->matches);
-					return true;
+					return;
 				}
 			}
 		}
 
-		if (isset($handler)) {
-			call_user_func_array($handler, $route->matches);
-			return true;
-		}
-		else return false;
+		if (isset($handler)) return call_user_func_array($handler, $route->matches);
+		else if ($this->router->notFound) return $this->handle(new Route($this->router->notFound, null));
+		else throw new Exception('Application error: 404. Not Found.');
 	}
 
 }
