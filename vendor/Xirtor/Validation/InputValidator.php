@@ -20,8 +20,14 @@ class InputValidator extends Object{
 	
 	public $label;
 
+	public $beforeValidate;
+	public $afterValidate;
+
+	public $htmlTags;
+
 	// string is default type
 	public $type = 'string';
+	public $checkType = 0;
 	public $typeIncorrectError;
 
 	public $min;
@@ -77,15 +83,25 @@ class InputValidator extends Object{
 		return true;
 	}
 
-	public function validate($value){
+	public function dropTags(&$value){
+		$value = strip_tags($value, $this->htmlTags);
+	}
+
+	public function validate(&$value){
+
+		if (is_callable($this->beforeValidate)) $this->beforeValidate($value);
+
+		if ($this->htmlTags != 1) $this->dropTags($value);
 
 		if (
-			!$this->checkType($value) ||
+			($this->checkType && !$this->checkType($value)) ||
 			$this->type === 'string' && !$this->checkLength($value) ||
 			($this->type === 'number' || $this->type === 'float' ||
 			$this->type === 'int' || $this->type === 'integer') && !$this->checkRange($value) ||
 			!$this->checkPattern($value)
 		) return false;
+
+		if (is_callable($this->afterValidate)) $this->afterValidate($value);
 
 		return true;
 	}

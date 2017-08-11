@@ -29,7 +29,7 @@ class Validator extends Object{
 		}
 	}
 
-	public function validate(array $values){
+	public function validate(array &$values){
 		$this->values = $values;
 		mb_internal_encoding($this->encoding);
 		foreach ($this->inputs as $name => &$input) {
