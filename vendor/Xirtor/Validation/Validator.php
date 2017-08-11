@@ -23,6 +23,9 @@ class Validator extends Object{
 	public $values = [];
 	public $errors = [];
 
+	public $beforeValidate;
+	public $afterValidate;
+
 	public function init(){
 		if (!empty($this->inputs)) foreach ($this->inputs as $name => $config) {
 			$this->inputs[$name] = new InputValidator($config);
@@ -32,6 +35,9 @@ class Validator extends Object{
 	public function validate(array &$values){
 		$this->values = $values;
 		mb_internal_encoding($this->encoding);
+
+		if (is_callable($this->beforeValidate)) $this->beforeValidate($value);
+
 		foreach ($this->inputs as $name => &$input) {
 			$value = isset($values[$name]) ? $values[$name] : null;
 			if (!$input->validate($value)) {
@@ -39,6 +45,9 @@ class Validator extends Object{
 				return false;
 			}
 		}
+
+		if (is_callable($this->afterValidate)) $this->afterValidate($value);
+		
 		return true;
 	}
 
